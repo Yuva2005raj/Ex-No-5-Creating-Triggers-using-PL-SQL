@@ -13,12 +13,61 @@
 8. Display the employee table, salary_log table.
 
 ### Program:
+```
+CREATE TABLE employed(
+  empid NUMBER,
+  empname VARCHAR2(10),
+  dept VARCHAR2(10),
+  salary NUMBER
+);
+
+CREATE TABLE sal_log (
+  log_id NUMBER GENERATED ALWAYS AS IDENTITY,
+  empid NUMBER,
+  empname VARCHAR2(10),
+  old_salary NUMBER,
+  new_salary NUMBER,
+  update_date DATE
+);
+```
 ### Create employee table
+![271760917-54fa1ef0-20ec-4e1e-8fd1-2246ab4e3fce](https://github.com/Yuva2005raj/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/118343998/1124dd0a-1de3-4857-9a06-ef6d707be40f)
+
 
 ### Create salary_log table
+![271760929-24958fad-5ece-4712-86d6-811aee775848](https://github.com/Yuva2005raj/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/118343998/1ead8347-785b-4ab7-bc46-f1d813fda80a)
+
 
 ### PLSQL Trigger code
 
+```
+->Create the trigger
+Create the trigger
+CREATE OR REPLACE TRIGGER log_sal_update
+BEFORE UPDATE ON employed
+FOR EACH ROW
+BEGIN
+  IF :OLD.salary != :NEW.salary THEN
+    INSERT INTO sal_log (empid, empname, old_salary, new_salary, update_date)
+    VALUES (:OLD.empid, :OLD.empname, :OLD.salary, :NEW.salary, SYSDATE);
+  END IF;
+END;
+/
+->Update the salary of an employee
+UPDATE employed
+SET salary = 60000
+WHERE empid = 1;
+->Display the employee table
+SELECT * FROM employed;
+
+->Display the salary_log table
+SELECT * FROM sal_log;
+
+```
+
 ### Output:
+![271760940-bf8f676e-371b-4741-8198-ffe63fa4b781](https://github.com/Yuva2005raj/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/118343998/405f3cd9-c8b1-4d52-91a1-89fb52311f84)
+
 
 ### Result:
+The program has been implemented successfully.
